@@ -1,0 +1,62 @@
+<!doctype html>
+<body class="bg-white text-gray-900 antialiased">
+<div id="menu-backdrop" class="menu-backdrop"></div>
+<aside id="side-menu" class="side-menu bg-white shadow-lg border-r">
+<div class="px-6 py-6">
+<div class="flex items-center justify-between">
+<div><div class="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center text-white font-bold">YN</div></div>
+<button id="menu-close" aria-label="Close menu" class="text-gray-600 hover:text-gray-900">✕</button>
+</div>
+<nav class="mt-8 space-y-4">
+<a href="/" class="block text-lg font-semibold text-slate-800 nav-link">Home</a>
+<a href="/work.html" class="block text-lg font-semibold text-slate-800 nav-link">Portfolio</a>
+<a href="/contact.html" class="block text-lg font-semibold text-slate-800 nav-link">Contact</a>
+<a href="/about.html" class="block text-lg font-semibold text-slate-800 nav-link">About Me</a>
+</nav>
+</div>
+</aside>
+<header class="fixed top-4 left-4 z-40">
+<button id="menu-open" class="hamburger-btn bg-white/90 backdrop-blur-md rounded-lg border p-2 shadow">
+<svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+<rect width="22" height="2" rx="1" fill="#0f172a"></rect>
+<rect y="6" width="22" height="2" rx="1" fill="#0f172a"></rect>
+<rect y="12" width="22" height="2" rx="1" fill="#0f172a"></rect>
+</svg>
+</button>
+</header>
+<main class="max-w-6xl mx-auto px-6 py-20">
+<h1 class="text-3xl font-bold">Selected work</h1>
+<p class="mt-2 text-gray-600">Each project can link to its own page or external case study.</p>
+<div class="mt-8 grid gap-6 md:grid-cols-3">
+<article class="bg-gray-50 rounded-xl p-4 shadow">
+<img class="rounded-md w-full h-40 object-cover" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="">
+<h4 class="mt-4 font-semibold">Project A</h4>
+<p class="mt-2 text-sm text-gray-600">Increased conversions by focusing on clarity and speed.</p>
+</article>
+<article class="bg-gray-50 rounded-xl p-4 shadow">
+<img class="rounded-md w-full h-40 object-cover" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="">
+<h4 class="mt-4 font-semibold">Project B</h4>
+<p class="mt-2 text-sm text-gray-600">Brand and website for a boutique studio.</p>
+</article>
+<article class="bg-gray-50 rounded-xl p-4 shadow">
+<img class="rounded-md w-full h-40 object-cover" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="">
+<h4 class="mt-4 font-semibold">Project C</h4>
+<p class="mt-2 text-sm text-gray-600">Performance audit and front-end rebuild.</p>
+</article>
+</div>
+</main>
+<script>
+const sideMenu = document.getElementById('side-menu');
+const menuOpen = document.getElementById('menu-open');
+const menuClose = document.getElementById('menu-close');
+const menuBackdrop = document.getElementById('menu-backdrop');
+function openMenu(){ sideMenu.classList.add('open'); menuBackdrop.classList.add('visible'); document.body.style.overflow = 'hidden'; }
+function closeMenu(){ sideMenu.classList.remove('open'); menuBackdrop.classList.remove('visible'); document.body.style.overflow = ''; }
+menuOpen.addEventListener('click', openMenu);
+menuClose.addEventListener('click', closeMenu);
+menuBackdrop.addEventListener('click', closeMenu);
+document.querySelectorAll('.nav-link').forEach(a=> a.addEventListener('click', closeMenu));
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeMenu(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<h1 class="text-6xl md:text-8xl font-extrabold text-white/95 text-center leading-tight">BIG TEXT SHOWS UP — then fades</h1>
+</div>
+<div class="max-w-6xl mx-auto px-6 py-40 relative">
+<div class="max-w-3xl">
+<h2 class="text-4xl md:text-5xl font-extrabold gradient-text">I design memorable digital experiences.</h2>
+<p class="mt-6 text-lg text-white/85">Design-led websites, performance-first frontends and storytelling portfolios.</p>
+<div class="mt-8 flex gap-4">
+<a href="/contact.html" class="rounded-full px-6 py-3 bg-white text-slate-900 font-semibold shadow">Work with me</a>
+<a href="/work.html" class="rounded-full px-6 py-3 border border-white/30 text-white/90">View portfolio</a>
+</div>
+</div>
+</div>
+</section>
+<footer class="border-t py-10 px-6">
+<div class="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-600">
+<div>© <span id="year"></span> Your Name</div>
+<div class="flex gap-4">
+<a href="#" class="hover:underline">GitHub</a>
+<a href="#" class="hover:underline">LinkedIn</a>
+</div>
+</div>
+</footer>
+</main>
+
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const sideMenu = document.getElementById('side-menu');
+const menuOpen = document.getElementById('menu-open');
+const menuClose = document.getElementById('menu-close');
+const menuBackdrop = document.getElementById('menu-backdrop');
+function openMenu(){ sideMenu.classList.add('open'); menuBackdrop.classList.add('visible'); document.body.style.overflow = 'hidden'; }
+function closeMenu(){ sideMenu.classList.remove('open'); menuBackdrop.classList.remove('visible'); document.body.style.overflow = ''; }
+menuOpen.addEventListener('click', openMenu);
+menuClose.addEventListener('click', closeMenu);
+menuBackdrop.addEventListener('click', closeMenu);
+document.querySelectorAll('.nav-link').forEach(a=>{ a.addEventListener('click', ()=>{ closeMenu(); }); });
+const bigText = document.getElementById('big-text');
+const BIG_TEXT_DURATION = 3000;
+window.addEventListener('load', ()=>{ setTimeout(()=>{ bigText.classList.add('fade-out'); setTimeout(()=> bigText.remove(), 1000); }, BIG_TEXT_DURATION); });
+// If you use the YouTube background, we can't pause it via the page easily without using the YouTube Player API.
+</script>
+</body>
+</html>

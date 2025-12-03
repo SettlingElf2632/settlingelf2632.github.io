@@ -1,44 +1,222 @@
 <!doctype html>
-</div>
-<div class="max-w-6xl mx-auto px-6 py-40 relative">
-<div class="max-w-3xl">
-<h2 class="text-4xl md:text-5xl font-extrabold gradient-text">I design memorable digital experiences.</h2>
-<p class="mt-6 text-lg text-white/85">Design-led websites, performance-first frontends and storytelling portfolios.</p>
-<div class="mt-8 flex gap-4">
-<a href="/contact.html" class="rounded-full px-6 py-3 bg-white text-slate-900 font-semibold shadow">Work with me</a>
-<a href="/work.html" class="rounded-full px-6 py-3 border border-white/30 text-white/90">View portfolio</a>
-</div>
-</div>
-</div>
-</section>
-<footer class="border-t py-10 px-6">
-<div class="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-600">
-<div>© <span id="year"></span> Your Name</div>
-<div class="flex gap-4">
-<a href="#" class="hover:underline">GitHub</a>
-<a href="#" class="hover:underline">LinkedIn</a>
-</div>
-</div>
-</footer>
-</main>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Home</title>
+  <meta name="description" content="Home — Personal site with video background." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --accent: #06b6d4; }
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #0b1020;
+    }
 
+    /* Off-canvas left menu */
+    .side-menu {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 280px;
+      transform: translateX(-100%);
+      transition: transform .35s cubic-bezier(.2,.9,.2,1);
+      z-index: 60;
+    }
+    .side-menu.open { transform: translateX(0); }
 
-<script>
-document.getElementById('year').textContent = new Date().getFullYear();
-const sideMenu = document.getElementById('side-menu');
-const menuOpen = document.getElementById('menu-open');
-const menuClose = document.getElementById('menu-close');
-const menuBackdrop = document.getElementById('menu-backdrop');
-function openMenu(){ sideMenu.classList.add('open'); menuBackdrop.classList.add('visible'); document.body.style.overflow = 'hidden'; }
-function closeMenu(){ sideMenu.classList.remove('open'); menuBackdrop.classList.remove('visible'); document.body.style.overflow = ''; }
-menuOpen.addEventListener('click', openMenu);
-menuClose.addEventListener('click', closeMenu);
-menuBackdrop.addEventListener('click', closeMenu);
-document.querySelectorAll('.nav-link').forEach(a=>{ a.addEventListener('click', ()=>{ closeMenu(); }); });
-const bigText = document.getElementById('big-text');
-const BIG_TEXT_DURATION = 3000;
-window.addEventListener('load', ()=>{ setTimeout(()=>{ bigText.classList.add('fade-out'); setTimeout(()=> bigText.remove(), 1000); }, BIG_TEXT_DURATION); });
-// If you use the YouTube background, we can't pause it via the page easily without using the YouTube Player API.
-</script>
+    .menu-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.55);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+      z-index: 50;
+    }
+    .menu-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+    /* Big timed text */
+    #big-text { transition: opacity .9s ease, transform .9s ease; }
+    #big-text.fade-out { opacity: 0; transform: translateY(-10px) scale(.98); }
+
+    /* YouTube iframe background sizing */
+    .yt-bg-wrap { position: fixed; inset: 0; overflow: hidden; z-index: -10; }
+    .yt-iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      /* scale wide to cover 16:9 background on many aspect ratios */
+      width: 177.78vh; /* 16/9 * 100vh */
+      height: 100vh;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      opacity: .98;
+      filter: saturate(.95) contrast(.96);
+    }
+
+    /* fallback video element (if you host a file) */
+    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -11; }
+
+    /* hamburger touch target */
+    .hamburger-btn { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+
+    /* gradient text */
+    .gradient-text { background: linear-gradient(90deg,#06b6d4,#0ea5a4); -webkit-background-clip: text; color: transparent; }
+
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body class="antialiased text-white">
+
+  <!-- Backdrop for menu -->
+  <div id="menu-backdrop" class="menu-backdrop" aria-hidden="true"></div>
+
+  <!-- Side menu (off-canvas) -->
+  <aside id="side-menu" class="side-menu bg-white text-slate-900 shadow-lg border-r">
+    <div class="px-6 py-6 h-full flex flex-col">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center text-white font-bold">YN</div>
+          <div class="text-sm">
+            <div class="font-semibold">Your Name</div>
+            <div class="text-xs text-gray-500">Designer • Developer</div>
+          </div>
+        </div>
+        <button id="menu-close" aria-label="Close menu" class="text-gray-600 hover:text-gray-900">✕</button>
+      </div>
+
+      <nav class="mt-8 space-y-4">
+        <a href="index.html" class="block text-lg font-semibold text-slate-800 nav-link">Home</a>
+        <a href="work.html" class="block text-lg font-semibold text-slate-800 nav-link">Portfolio</a>
+        <a href="contact.html" class="block text-lg font-semibold text-slate-800 nav-link">Contact</a>
+        <a href="about.html" class="block text-lg font-semibold text-slate-800 nav-link">About Me</a>
+      </nav>
+
+      <div class="mt-auto text-sm text-gray-600">
+        <div>Designer · Developer</div>
+        <div class="mt-4">
+          <a href="contact.html" class="inline-block px-3 py-2 rounded bg-slate-900 text-white">Hire me</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Top-left hamburger -->
+  <header class="fixed top-4 left-4 z-40">
+    <button id="menu-open" class="hamburger-btn bg-white/90 backdrop-blur-md rounded-lg border p-2 shadow" aria-label="Open menu">
+      <svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <rect width="22" height="2" rx="1" fill="#0f172a"></rect>
+        <rect y="6" width="22" height="2" rx="1" fill="#0f172a"></rect>
+        <rect y="12" width="22" height="2" rx="1" fill="#0f172a"></rect>
+      </svg>
+    </button>
+  </header>
+
+  <!-- YouTube background (recommended for free 4K delivery) -->
+  <div class="yt-bg-wrap" aria-hidden="true">
+    <!-- Your YouTube video ID inserted below -->
+    <iframe
+      id="yt-bg"
+      class="yt-iframe"
+      src="https://www.youtube.com/embed/QOXNjWi2xK4?autoplay=1&mute=1&controls=0&loop=1&playlist=QOXNjWi2xK4&modestbranding=1&rel=0&playsinline=1"
+      frameborder="0"
+      allow="autoplay; fullscreen"
+      title="Background video"></iframe>
+
+    <!-- Fallback local video (commented). Use only if you host a video file in the repo.
+    <video id="bg-video" class="bg-video" autoplay muted loop playsinline preload="auto">
+      <source src="video.mp4" type="video/mp4">
+      <source src="video.webm" type="video/webm">
+    </video>
+    -->
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="relative z-10 min-h-screen flex items-center">
+    <!-- subtle overlay to improve contrast -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/55 pointer-events-none"></div>
+
+    <!-- Big temporary text -->
+    <div id="big-text" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <h1 class="text-6xl md:text-8xl font-extrabold text-white/95 text-center leading-tight">BIG TEXT SHOWS UP — then fades</h1>
+    </div>
+
+    <!-- Hero content -->
+    <div class="max-w-6xl mx-auto px-6 py-40 relative">
+      <div class="max-w-3xl">
+        <h2 class="text-4xl md:text-5xl font-extrabold gradient-text">I design memorable digital experiences.</h2>
+        <p class="mt-6 text-lg text-white/85">Design-led websites, performance-first frontends and storytelling portfolios.</p>
+
+        <div class="mt-8 flex gap-4">
+          <a href="contact.html" class="rounded-full px-6 py-3 bg-white text-slate-900 font-semibold shadow">Work with me</a>
+          <a href="work.html" class="rounded-full px-6 py-3 border border-white/30 text-white/90">View portfolio</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="relative z-10 border-t pt-8 pb-10 text-center text-sm text-white/70">
+    © <span id="year"></span> Your Name
+  </footer>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // menu controls
+    const sideMenu = document.getElementById('side-menu');
+    const menuOpen = document.getElementById('menu-open');
+    const menuClose = document.getElementById('menu-close');
+    const menuBackdrop = document.getElementById('menu-backdrop');
+
+    function openMenu() {
+      sideMenu.classList.add('open');
+      menuBackdrop.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      sideMenu.classList.remove('open');
+      menuBackdrop.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    menuOpen.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
+    menuBackdrop.addEventListener('click', closeMenu);
+
+    // close menu when navigation link clicked
+    document.querySelectorAll('.nav-link').forEach(a => {
+      a.addEventListener('click', () => {
+        // small timeout so the link navigation starts after close animation
+        closeMenu();
+      });
+    });
+
+    // ESC to close menu
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    // Big text fade out
+    const bigText = document.getElementById('big-text');
+    const BIG_TEXT_DURATION = 3000; // ms: change to taste
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        bigText.classList.add('fade-out');
+        setTimeout(() => {
+          if (bigText && bigText.parentNode) bigText.parentNode.removeChild(bigText);
+        }, 1000);
+      }, BIG_TEXT_DURATION);
+    });
+
+    // Note: we use YouTube embed for background. Autoplay is driven by YouTube and will autoplay muted.
+    // If you later want to control play/pause you can integrate YouTube Player API.
+  </script>
 </body>
 </html>

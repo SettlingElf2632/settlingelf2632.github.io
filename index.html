@@ -1,9 +1,253 @@
-<html>
-<body>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Portfolio & CV</title>
+  <meta name="description" content="Personal site: portfolio, CV and contact." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--accent:#06b6d4}
+    body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    /* Off-canvas left menu */
+    .side-menu { position: fixed; left: 0; top: 0; height: 100vh; width: 280px; transform: translateX(-100%); transition: transform .35s cubic-bezier(.2,.9,.2,1); z-index:60; }
+    .side-menu.open { transform: translateX(0); }
+    .menu-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.45); opacity: 0; pointer-events: none; transition: opacity .25s; z-index:50; }
+    .menu-backdrop.visible { opacity: 1; pointer-events: auto; }
 
-<video width="640" height="240" autoplay muted>
-  <source src="https://drive.google.com/file/d/1q0MNFA3if9g0rCOZDmnniZ2T8JIAmrpc/view?usp=sharing">
-</video>
+    /* Big timed text */
+    #big-text { transition: opacity .9s ease, transform .9s ease; }
+    #big-text.fade-out { opacity: 0; transform: translateY(-10px) scale(.98); }
 
+    /* small visual helpers */
+    .gradient-text { background: linear-gradient(90deg,#06b6d4,#0ea5a4); -webkit-background-clip:text; color:transparent; }
+
+    /* ensure main content is above video */
+    .bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -10; }
+
+    /* better touch targets for left hamburger on mobile */
+    .hamburger-btn { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+
+    /* reduce motion preference */
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+
+  <!-- SIDE MENU BACKDROP -->
+  <div id="menu-backdrop" class="menu-backdrop"></div>
+
+  <!-- SIDE MENU (off-canvas from left) -->
+  <aside id="side-menu" class="side-menu bg-white shadow-lg border-r">
+    <div class="px-6 py-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center text-white font-bold">YN</div>
+        </div>
+        <button id="menu-close" aria-label="Close menu" class="text-gray-600 hover:text-gray-900">✕</button>
+      </div>
+
+      <nav class="mt-8 space-y-4">
+        <a href="#home" class="block text-lg font-semibold text-slate-800 nav-link">Home</a>
+        <a href="#work" class="block text-lg font-semibold text-slate-800 nav-link">Portfolio</a>
+        <a href="#contact" class="block text-lg font-semibold text-slate-800 nav-link">Contact</a>
+        <a href="#about" class="block text-lg font-semibold text-slate-800 nav-link">About Me</a>
+      </nav>
+
+      <div class="mt-8 text-sm text-gray-600">
+        <div>Designer · Developer</div>
+        <div class="mt-3">
+          <a href="#contact" class="inline-block mt-2 px-3 py-2 rounded bg-slate-900 text-white">Hire me</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- TOP BAR with left hamburger -->
+  <header class="fixed top-4 left-4 z-40">
+    <button id="menu-open" class="hamburger-btn bg-white/90 backdrop-blur-md rounded-lg border p-2 shadow flex items-center justify-center" aria-label="Open menu">
+      <!-- simple hamburger icon -->
+      <svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <rect width="22" height="2" rx="1" fill="#0f172a"></rect>
+        <rect y="6" width="22" height="2" rx="1" fill="#0f172a"></rect>
+        <rect y="12" width="22" height="2" rx="1" fill="#0f172a"></rect>
+      </svg>
+    </button>
+  </header>
+
+  <!-- BACKGROUND VIDEO (full viewport) -->
+  <!-- NOTE: replace the <source> src with your own mp4/webm. It must be muted to autoplay on most browsers. -->
+  <video id="bg-video" class="bg-video" autoplay muted loop playsinline preload="auto" poster="">
+    <!-- Replace 'video.mp4' with your video file path or remote URL. Keep a webm/mp4 pair if possible for wider support. -->
+    <source src="video.mp4" type="video/mp4">
+    <source src="video.webm" type="video/webm">
+    <!-- fallback: a large hero image will show when video is unavailable -->
+  </video>
+
+  <!-- MAIN PAGE CONTENT -->
+  <main class="relative z-10">
+
+    <!-- HOME / HERO (video is background) -->
+    <section id="home" class="min-h-screen flex items-center">
+      <!-- translucent overlay for better legibility -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/55 pointer-events-none"></div>
+
+      <!-- big temporary text that disappears after a few seconds -->
+      <div id="big-text" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <h1 class="text-6xl md:text-8xl font-extrabold text-white/95 text-center leading-tight">BIG TEXT SHOWS UP — then fades</h1>
+      </div>
+
+      <!-- main hero content -->
+      <div class="max-w-6xl mx-auto px-6 py-40 relative">
+        <div class="max-w-3xl">
+          <h2 class="text-4xl md:text-5xl font-extrabold gradient-text">I design memorable digital experiences.</h2>
+          <p class="mt-6 text-lg text-white/85">Design-led websites, performance-first frontends and storytelling portfolios.</p>
+
+          <div class="mt-8 flex gap-4">
+            <a href="#contact" class="rounded-full px-6 py-3 bg-white text-slate-900 font-semibold shadow">Work with me</a>
+            <a href="#work" class="rounded-full px-6 py-3 border border-white/30 text-white/90">View portfolio</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="work" class="px-6 py-20 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <h3 class="text-3xl font-bold">Selected work</h3>
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          <article class="bg-gray-50 rounded-xl p-4 shadow reveal">
+            <img class="rounded-md w-full h-40 object-cover" src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="">
+            <h4 class="mt-4 font-semibold">Project A</h4>
+            <p class="mt-2 text-sm text-gray-600">Increased conversions by focusing on clarity and speed.</p>
+          </article>
+          <article class="bg-gray-50 rounded-xl p-4 shadow reveal">
+            <img class="rounded-md w-full h-40 object-cover" src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="">
+            <h4 class="mt-4 font-semibold">Project B</h4>
+            <p class="mt-2 text-sm text-gray-600">Brand and website for a boutique studio.</p>
+          </article>
+          <article class="bg-gray-50 rounded-xl p-4 shadow reveal">
+            <img class="rounded-md w-full h-40 object-cover" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=" alt="">
+            <h4 class="mt-4 font-semibold">Project C</h4>
+            <p class="mt-2 text-sm text-gray-600">Performance audit and front-end rebuild.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="px-6 py-20 bg-white">
+      <div class="max-w-4xl mx-auto">
+        <h3 class="text-2xl font-bold">About Me</h3>
+        <p class="mt-3 text-gray-600">Designer-developer focused on fast, beautiful web experiences. Years: 2017–present. Key skills: HTML, CSS, JS, Tailwind, accessibility, performance.</p>
+        <ul class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-700">
+          <li>• Frontend engineering</li>
+          <li>• UX & interaction design</li>
+          <li>• Performance audits</li>
+          <li>• Brand systems</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="px-6 py-20 bg-white">
+      <div class="max-w-3xl mx-auto">
+        <h3 class="text-2xl font-bold">Contact</h3>
+        <p class="mt-2 text-gray-600">Interested in a project? Send a short note.</p>
+
+        <form action="https://formspree.io/f/your-id" method="POST" class="mt-6 grid gap-3">
+          <input name="name" placeholder="Your name" class="p-3 rounded border" required>
+          <input name="email" type="email" placeholder="Email" class="p-3 rounded border" required>
+          <textarea name="message" rows="5" placeholder="Message" class="p-3 rounded border" required></textarea>
+          <button type="submit" class="rounded bg-slate-900 text-white px-4 py-2">Send message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="border-t py-10 px-6">
+      <div class="max-w-6xl mx-auto flex items-center justify-between text-sm text-gray-600">
+        <div>© <span id="year"></span> Your Name</div>
+        <div class="flex gap-4">
+          <a href="#" class="hover:underline">GitHub</a>
+          <a href="#" class="hover:underline">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const sideMenu = document.getElementById('side-menu');
+    const menuOpen = document.getElementById('menu-open');
+    const menuClose = document.getElementById('menu-close');
+    const menuBackdrop = document.getElementById('menu-backdrop');
+
+    function openMenu(){ sideMenu.classList.add('open'); menuBackdrop.classList.add('visible'); document.body.style.overflow = 'hidden'; }
+    function closeMenu(){ sideMenu.classList.remove('open'); menuBackdrop.classList.remove('visible'); document.body.style.overflow = ''; }
+
+    menuOpen.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
+    menuBackdrop.addEventListener('click', closeMenu);
+
+    // close the menu when a nav link is clicked (and smooth-scroll)
+    document.querySelectorAll('.nav-link').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        closeMenu();
+        // short delay to allow menu to close before jumping
+        setTimeout(()=>{
+          // default anchor will jump; we smooth scroll instead
+          const target = document.querySelector(a.getAttribute('href'));
+          if(target){ target.scrollIntoView({behavior:'smooth'}); }
+        }, 250);
+      });
+    });
+
+    // Big text that disappears after a few seconds
+    const bigText = document.getElementById('big-text');
+    // duration in ms until it starts fading out
+    const BIG_TEXT_DURATION = 3000; // change this value to make it shorter/longer
+    window.addEventListener('load', ()=>{
+      setTimeout(()=>{
+        bigText.classList.add('fade-out');
+        // remove from DOM after the fade completes
+        setTimeout(()=> bigText.remove(), 1000);
+      }, BIG_TEXT_DURATION);
+    });
+
+    // Play/pause background video depending on whether the hero is in view
+    const bgVideo = document.getElementById('bg-video');
+    const hero = document.getElementById('home');
+    const heroObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          // ensure it's playing when hero is visible
+          if(bgVideo.paused) bgVideo.play().catch(()=>{});
+        } else {
+          // pause to save CPU/battery when not visible
+          if(!bgVideo.paused) bgVideo.pause();
+        }
+      })
+    }, {threshold: 0.2});
+    heroObserver.observe(hero);
+
+    // small reveal on scroll for portfolio cards
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('opacity-100', 'translate-y-0');
+      });
+    }, {threshold: .12});
+    document.querySelectorAll('.reveal').forEach(el=>{
+      el.classList.add('opacity-0', 'translate-y-6', 'transition', 'duration-700');
+      io.observe(el);
+    });
+
+    // Accessibility: close menu on Esc
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') closeMenu();
+    });
+  </script>
 </body>
 </html>
